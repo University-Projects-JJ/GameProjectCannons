@@ -20,10 +20,10 @@ public class HealthScript : MonoBehaviour {
 	}
 
 	void displayHealth() {
-		if (imgHealth != null && txtHealth != null) {
+		if (imgHealth != null)
 			imgHealth.fillAmount = (float)(health * 1.0f) / MAX_HEALTH;
+		if (txtHealth != null)
 			txtHealth.text = health.ToString();
-		}
 	}
 
 	// Start is called before the first frame update
