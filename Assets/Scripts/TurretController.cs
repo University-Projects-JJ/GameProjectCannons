@@ -54,13 +54,14 @@ public class TurretController : MonoBehaviour {
 		shootFromSpawner = 3 - shootFromSpawner; // switches between 1 and 2
 
 		GameObject bullet = Instantiate(bulletPrefab, spawnPosition, spawnRotation);
-		bullet.GetComponent<BulletScript>().belongsToPlayer = gameObject.transform.parent.gameObject;
 		bullet.GetComponent<Rigidbody>().AddForce(turret.transform.forward * bulletForce * 35);
 
 		// assign bullet to player
+		bullet.GetComponent<BulletScript>().belongsToPlayer = gameObject.transform.parent.gameObject;
 
 		// get assigned player
 		GameObject player = bullet.GetComponent<BulletScript>().belongsToPlayer;
+
 
 		// if has double damage bullets
 		if (player.GetComponent<PlayerScript>().doubleDamageBullets > 0) {

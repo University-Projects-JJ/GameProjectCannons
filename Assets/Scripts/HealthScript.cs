@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HealthScript : MonoBehaviour {
 	// public GameObject destroyedModel;
 	public int health;
-	public float MAX_HEALTH;
+	public int MAX_HEALTH;
 	public Image imgHealth;
 	public Text txtHealth;
 	// Start is called before the first frame update
@@ -16,23 +16,26 @@ public class HealthScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		showHealth();
+		displayHealth();
 	}
 
-	void showHealth() {
+	void displayHealth() {
 		if (imgHealth != null && txtHealth != null) {
-			imgHealth.fillAmount = health / MAX_HEALTH;
+			imgHealth.fillAmount = (float)(health * 1.0f) / MAX_HEALTH;
 			txtHealth.text = health.ToString();
 		}
 	}
 
 	// Start is called before the first frame update
 	public void TakeDamage(int damage) {
+
 		health -= damage;
 		if (health <= 0) {
-
 			if (gameObject.tag == "Fence")
 				gameObject.GetComponent<ObstacleScript>().destroyFence();
+			else if (gameObject.tag == "Player") {
+				// end game
+			}
 			else
 				Destroy(gameObject);
 			// 3 variations

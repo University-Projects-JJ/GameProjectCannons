@@ -41,6 +41,15 @@ public class BulletScript : MonoBehaviour {
 		col.gameObject.GetComponent<HealthScript>().TakeDamage(damage);
 	}
 	void OnCollisionEnter(Collision collision) {
+		causeExplosion();
+	}
+
+	void OnTriggerEnter(Collider collider) {
+		Debug.Log("Trigger");
+		causeExplosion();
+	}
+
+	void causeExplosion() {
 		colliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
 		foreach (Collider col in colliders) {
@@ -57,8 +66,7 @@ public class BulletScript : MonoBehaviour {
 
 			// if can take damage => in affected tags
 			if (conditionallyAffectedTags.Contains(target.tag)) {
-				GameObject targetBelongsToPlayer = target.tag == "Player" ? target : target.GetComponent<ObstacleScript>().belongsToPlayer;
-
+				GameObject targetBelongsToPlayer = target.GetComponent<ObstacleScript>().belongsToPlayer;
 				if (targetBelongsToPlayer == belongsToPlayer)
 					continue;
 				else
@@ -68,16 +76,13 @@ public class BulletScript : MonoBehaviour {
 			else if (alwaysAffectedTags.Contains(target.tag)) {
 				// inflict damage based on distance
 				dealDamage(col);
-				// float damage = calculateDamage(col) * explosiveDamageMultiplier;
-				// belongsToPlayer.GetComponent<PlayerScript>().playerScore += (int)Mathf.Ceil(damage);
-				// target.GetComponent<HealthScript>().TakeDamage(damage);
 			}
-		}
-		AudioSource.PlayClipAtPoint(explosionSound, gameObject.transform.position);
+			AudioSource.PlayClipAtPoint(explosionSound, gameObject.transform.position);
 
-		// Destroy bullet after dealing damage
-		gameObject.SetActive(false);
-		Invoke("destroyBullet", 1);
+			// Destroy bullet after dealing damage
+			gameObject.SetActive(false);
+			Invoke("destroyBullet", 1);
+		}
 	}
 
 	void destroyBullet() {

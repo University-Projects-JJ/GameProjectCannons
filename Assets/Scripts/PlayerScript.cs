@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour {
 
-	public int playerHealth = 0;
+	// public int playerHealth = 0;
 	public int playerScore = 0;
-	public Text txtPlayerHealth, txtPlayerScore;
-	public Image imgPlayerHealthBar;
+	public Text txtPlayerScore;
+	// public Image imgPlayerHealthBar;
 	public GameObject imgListDoubleDamageBullets;
 
 	public int doubleDamageBullets = 0;
@@ -16,7 +16,11 @@ public class PlayerScript : MonoBehaviour {
 	public Transform defensesParent;
 	// Start is called before the first frame update
 	void Start() {
-		playerHealth = GameManager.instance.MAX_PLAYER_HEALTH;
+		// SET UP HEALTH
+		int MAX_HEALTH = GameManager.instance.MAX_PLAYER_HEALTH;
+		gameObject.GetComponentInChildren<HealthScript>().health = MAX_HEALTH;
+		gameObject.GetComponentInChildren<HealthScript>().MAX_HEALTH = MAX_HEALTH;
+
 		defenses = new List<GameObject>();
 		foreach (Transform child in defensesParent) {
 			GameObject fence = child.gameObject;
@@ -30,20 +34,21 @@ public class PlayerScript : MonoBehaviour {
 
 	}
 	void FixedUpdate() {
-		displayHealth();
 		showDoubleDamageBullets();
 		showPlayerScore();
 	}
 
-	void displayHealth() {
-		txtPlayerHealth.text = playerHealth.ToString();
-		imgPlayerHealthBar.fillAmount = playerHealth / 1000;
-	}
+	// void displayHealth() {
+	// 	int health = gameObject.GetComponentInChildren<HealthScript>().health;
+	// 	int MAX_HEALTH = gameObject.GetComponentInChildren<HealthScript>().MAX_HEALTH;
+	// 	txtPlayerHealth.text = health.ToString();
+	// 	imgPlayerHealthBar.fillAmount = health / MAX_HEALTH;
+	// }
 
 	public void healPlayer(int health) {
-		int newHealth = playerHealth + health;
+		int newHealth = gameObject.GetComponentInChildren<HealthScript>().health + health;
 		int MAX_PLAYER_HEALTH = GameManager.instance.MAX_PLAYER_HEALTH;
-		playerHealth = newHealth > MAX_PLAYER_HEALTH ? MAX_PLAYER_HEALTH : newHealth;
+		gameObject.GetComponent<HealthScript>().health = newHealth > MAX_PLAYER_HEALTH ? MAX_PLAYER_HEALTH : newHealth;
 	}
 
 	public void enableDoubleDamage(int count) {
