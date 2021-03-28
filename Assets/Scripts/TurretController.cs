@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class TurretController : MonoBehaviour {
 	public float mouseSensitivity = 10.0f;
 	float xAxisClamp = 0, yAxisClamp = 0;
+	float rotX = 0, rotY = 0;
 	private float MAXCLAMP_XDOWN = 50, MAXCLAMP_XUP = -20, MAXCLAMP_Y = 45;
-	public GameObject turret, camera;
+	public GameObject turret, turretObject, camera;
 	public GameObject bulletPrefab, bulletSpawner1, bulletSpawner2;
 	private float bulletForce = 0;
 	private int shootFromSpawner = 1;
@@ -67,7 +68,7 @@ public class TurretController : MonoBehaviour {
 		gameObject.GetComponent<AudioSource>().Play();
 	}
 
-	void RotateCamera() {
+	void RotateCameraOld() {
 		float mouseX = Input.GetAxis("Mouse X");
 		float mouseY = Input.GetAxis("Mouse Y");
 
@@ -104,5 +105,17 @@ public class TurretController : MonoBehaviour {
 		}
 
 		turret.transform.rotation = Quaternion.Euler(rotateTurret);
+	}
+	void RotateCamera() {
+		float mouseX = Input.GetAxis("Mouse X");
+		float mouseY = Input.GetAxis("Mouse Y");
+
+		float rotHorizontal = mouseX * mouseSensitivity;
+		float rotVertical = mouseY * mouseSensitivity;
+		// float rotHorizontal = Input.GetAxis("Horizontal") * mouseSensitivity;
+		// float rotVertical = Input.GetAxis("Vertical") * mouseSensitivity;
+
+		turretObject.transform.Rotate(0, rotHorizontal, 0);
+		turret.transform.Rotate(-rotVertical, 0, 0);
 	}
 }
