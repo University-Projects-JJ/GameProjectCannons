@@ -43,7 +43,7 @@ public class ZombieManager : MonoBehaviour {
 	public void setZombiesTarget(GameObject target) {
 		foreach (Transform zombie in zombiesParent) {
 			GameObject zombieObj = zombie.gameObject;
-			zombieObj.GetComponent<ZombieScript>().target = target;
+			zombieObj.GetComponent<ZombieScript>().playerTarget = target;
 		}
 	}
 }

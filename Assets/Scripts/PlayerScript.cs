@@ -4,9 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour {
-	private float playerHealth = 1000;
+	public float playerHealth = 1000;
 	public Text txtPlayerHealth;
 	public Image imgPlayerHealthBar;
+
+	private string currentPowerup;
 	// Start is called before the first frame update
 	void Start() {
 
