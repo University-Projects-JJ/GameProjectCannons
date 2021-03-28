@@ -104,7 +104,8 @@ public class TurretController : MonoBehaviour {
 			rotateTurret.y = 226.799f;
 		}
 
-		turret.transform.rotation = Quaternion.Euler(rotateTurret);
+		turretObject.transform.Rotate(0, rotateTurret.x, 0);
+		turret.transform.Rotate(0, rotateTurret.y, 0);
 	}
 	void RotateCamera() {
 		float mouseX = Input.GetAxis("Mouse X");
