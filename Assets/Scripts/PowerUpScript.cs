@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerUpScript : MonoBehaviour {
-	private float POWERUP_HEALTH = 250;
+	private int POWERUP_HEALTH = 250;
 	private int POWERUP_DOUBLE_DAMAGE_COUNT = 3;
 	public enum POWERUP_TYPES { HEAL, AMMO, SHIELD };
 	public POWERUP_TYPES powerupType;
@@ -25,7 +25,7 @@ public class PowerUpScript : MonoBehaviour {
 		ApplyPowerup(player);
 
 		// destroy bullet here
-		Destroy(collision.gameObject);
+		// Destroy(collision.gameObject);
 		Destroy(gameObject);
 	}
 

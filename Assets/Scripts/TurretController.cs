@@ -12,6 +12,7 @@ public class TurretController : MonoBehaviour {
 	public GameObject bulletPrefab, bulletSpawner1, bulletSpawner2;
 	private float bulletForce = 0;
 	private int shootFromSpawner = 1;
+	public bool canShoot = true;
 
 	// UI ELEMENTS
 	public Image forcePowerBar;
@@ -27,27 +28,36 @@ public class TurretController : MonoBehaviour {
 		RotateCamera();
 
 		// shoot a bullet
-		if (Input.GetButton("Fire1")) {
-			bulletForce = (bulletForce + 1.5f) % 100;
-			forcePowerBar.fillAmount = bulletForce / 100.0f;
-		}
-		if (Input.GetButtonUp("Fire1")) {
-			ShootBullets(bulletForce);
-			bulletForce = 0;
-			forcePowerBar.fillAmount = 0;
+
+		if (canShoot) {
+
+			if (Input.GetButton("Fire1")) {
+				bulletForce = (bulletForce + 1.5f) % 100;
+				forcePowerBar.fillAmount = bulletForce / 100.0f;
+			}
+			if (Input.GetButtonUp("Fire1")) {
+				ShootBullets(bulletForce);
+				bulletForce = 0;
+				forcePowerBar.fillAmount = 0;
+				canShoot = false;
+			}
 		}
 	}
 
+	IEnumerator waitToEndTurn(GameObject bullet) {
+		yield return new WaitUntil(() => bullet == null);
+		GameManager.instance.SwitchPlayer();
+	}
 	void ShootBullets(float bulletForce) {
 		Vector3 spawnPosition = shootFromSpawner == 1 ? bulletSpawner1.transform.position : bulletSpawner2.transform.position;
 		Quaternion spawnRotation = shootFromSpawner == 1 ? bulletSpawner1.transform.rotation : bulletSpawner2.transform.rotation;
 		shootFromSpawner = 3 - shootFromSpawner; // switches between 1 and 2
 
 		GameObject bullet = Instantiate(bulletPrefab, spawnPosition, spawnRotation);
+		bullet.GetComponent<BulletScript>().belongsToPlayer = gameObject.transform.parent.gameObject;
 		bullet.GetComponent<Rigidbody>().AddForce(turret.transform.forward * bulletForce * 35);
 
 		// assign bullet to player
-		bullet.GetComponent<BulletScript>().belongsToPlayer = gameObject.transform.parent.gameObject;
 
 		// get assigned player
 		GameObject player = bullet.GetComponent<BulletScript>().belongsToPlayer;
@@ -66,6 +76,8 @@ public class TurretController : MonoBehaviour {
 		}
 
 		gameObject.GetComponent<AudioSource>().Play();
+
+		StartCoroutine(waitToEndTurn(bullet));
 	}
 
 	void RotateCameraOld() {

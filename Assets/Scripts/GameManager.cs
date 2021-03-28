@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-	public float MAX_PLAYER_HEALTH = 1000;
-	public float MAX_FENCE_HEALTH = 200;
+	public int MAX_PLAYER_HEALTH = 1000;
+	public int MAX_FENCE_HEALTH = 200;
 	public static GameManager instance;
 	public GameObject testTarget;
 
@@ -23,24 +23,24 @@ public class GameManager : MonoBehaviour {
 		SwitchPlayer();
 		// yield return StartCoroutine(ZombieManager.instance.spawnZombies(5, 0));
 		yield return new WaitForSeconds(1);
+
 		// ZombieManager.instance.setZombiesTarget(testTarget);
 	}
 
 	// Update is called once per frame
 	void Update() {
-		if (Input.GetKeyDown(KeyCode.Space)) {
-			SwitchPlayer();
-		}
 	}
 
 	void enablePlayer(GameObject player, bool isEnabled) {
 		TurretController turretController = player.GetComponentInChildren<TurretController>();
 		turretController.camera.SetActive(isEnabled);
 		turretController.enabled = isEnabled;
+		turretController.canShoot = isEnabled;
+		player.GetComponent<PlayerScript>().imgListDoubleDamageBullets.SetActive(isEnabled);
 	}
 
 
-	void SwitchPlayer() {
+	public void SwitchPlayer() {
 		if (currentPlayer == 1) {
 			enablePlayer(player1, true);
 			enablePlayer(player2, false);

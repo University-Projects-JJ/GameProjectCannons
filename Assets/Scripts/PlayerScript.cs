@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour {
 
-	public float playerHealth = 0;
+	public int playerHealth = 0;
 	public int playerScore = 0;
 	public Text txtPlayerHealth, txtPlayerScore;
 	public Image imgPlayerHealthBar;
@@ -40,9 +40,9 @@ public class PlayerScript : MonoBehaviour {
 		imgPlayerHealthBar.fillAmount = playerHealth / 1000;
 	}
 
-	public void healPlayer(float health) {
-		float newHealth = playerHealth + health;
-		float MAX_PLAYER_HEALTH = GameManager.instance.MAX_PLAYER_HEALTH;
+	public void healPlayer(int health) {
+		int newHealth = playerHealth + health;
+		int MAX_PLAYER_HEALTH = GameManager.instance.MAX_PLAYER_HEALTH;
 		playerHealth = newHealth > MAX_PLAYER_HEALTH ? MAX_PLAYER_HEALTH : newHealth;
 	}
 
@@ -53,6 +53,7 @@ public class PlayerScript : MonoBehaviour {
 	public void restoreDefenses() {
 		foreach (GameObject fence in defenses) {
 			fence.GetComponent<HealthScript>().health = GameManager.instance.MAX_FENCE_HEALTH;
+			fence.GetComponent<HealthScript>().MAX_HEALTH = GameManager.instance.MAX_FENCE_HEALTH;
 			if (!fence.activeInHierarchy)
 				fence.SetActive(true);
 		}

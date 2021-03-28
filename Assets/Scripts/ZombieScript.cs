@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class ZombieScript : MonoBehaviour {
-	private float health = 100;
-	private float damage = 25;
+	private int damage = 25;
 	private float speed = 4.0f;
 	private Vector3 distance, direction;
 	public GameObject playerTarget;

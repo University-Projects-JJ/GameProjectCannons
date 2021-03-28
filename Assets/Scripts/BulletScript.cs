@@ -18,13 +18,16 @@ public class BulletScript : MonoBehaviour {
 
 	// Start is called before the first frame update
 	void Start() {
+		// always destroy the bullet if not destroyed
+		// yield return new WaitForSeconds(10);
+		// if (gameObject != null)
+		// 	Destroy(gameObject);
 	}
 
 	// Update is called once per frame
 	void Update() {
 		// if out of bounds
-		if (gameObject.transform.position.y < 0)
-			Destroy(gameObject);
+
 	}
 	float calculateDamage(Collider col) {
 		float distance = Vector3.Distance(transform.position, col.transform.position);
@@ -33,8 +36,8 @@ public class BulletScript : MonoBehaviour {
 	}
 
 	void dealDamage(Collider col) {
-		float damage = calculateDamage(col) * explosiveDamageMultiplier;
-		belongsToPlayer.GetComponent<PlayerScript>().playerScore += (int)Mathf.Ceil(damage);
+		int damage = (int)Mathf.Ceil(calculateDamage(col) * explosiveDamageMultiplier);
+		belongsToPlayer.GetComponent<PlayerScript>().playerScore += damage;
 		col.gameObject.GetComponent<HealthScript>().TakeDamage(damage);
 	}
 	void OnCollisionEnter(Collision collision) {
@@ -69,11 +72,15 @@ public class BulletScript : MonoBehaviour {
 				// belongsToPlayer.GetComponent<PlayerScript>().playerScore += (int)Mathf.Ceil(damage);
 				// target.GetComponent<HealthScript>().TakeDamage(damage);
 			}
-
-
-			AudioSource.PlayClipAtPoint(explosionSound, gameObject.transform.position);
-			// Destroy bullet when after dealing damage
-			Destroy(gameObject);
 		}
+		AudioSource.PlayClipAtPoint(explosionSound, gameObject.transform.position);
+
+		// Destroy bullet after dealing damage
+		gameObject.SetActive(false);
+		Invoke("destroyBullet", 1);
+	}
+
+	void destroyBullet() {
+		Destroy(gameObject);
 	}
 }

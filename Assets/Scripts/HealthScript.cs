@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthScript : MonoBehaviour {
 	// public GameObject destroyedModel;
-	public float health;
+	public int health;
+	public float MAX_HEALTH;
+	public Image imgHealth;
+	public Text txtHealth;
 	// Start is called before the first frame update
 	void Start() {
 
@@ -12,12 +16,18 @@ public class HealthScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-
+		showHealth();
 	}
 
+	void showHealth() {
+		if (imgHealth != null && txtHealth != null) {
+			imgHealth.fillAmount = health / MAX_HEALTH;
+			txtHealth.text = health.ToString();
+		}
+	}
 
 	// Start is called before the first frame update
-	public void TakeDamage(float damage) {
+	public void TakeDamage(int damage) {
 		health -= damage;
 		if (health <= 0) {
 
