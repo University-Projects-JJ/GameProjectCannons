@@ -5,15 +5,19 @@ using UnityEngine.AI;
 
 public class BulletScript : MonoBehaviour {
 	private int explosionRadius = 10, explosionForce = 1000;
-	public float explosiveDamageMultiplier = 1.5f;
+	public AudioClip explosionSound;
+	public float explosiveDamageMultiplier = 1.2f;
 	public Collider[] colliders;
-	public List<string> affectedTags = new List<string> { "Zombie", "Obstacle" };
+	private List<string> alwaysAffectedTags = new List<string> { "Zombie", "Obstacle" };
+	private List<string> conditionallyAffectedTags = new List<string> { "Fence", "Player" };
+
+	public GameObject belongsToPlayer;
+	public GameObject particleChild;
 	// Start is called before the first frame update
 
 
 	// Start is called before the first frame update
 	void Start() {
-
 	}
 
 	// Update is called once per frame
@@ -29,6 +33,7 @@ public class BulletScript : MonoBehaviour {
 	}
 	void OnCollisionEnter(Collision collision) {
 		colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+
 		foreach (Collider col in colliders) {
 			GameObject target = col.gameObject;
 			Rigidbody rigidBody = target.GetComponent<Rigidbody>();
@@ -42,12 +47,23 @@ public class BulletScript : MonoBehaviour {
 				rigidBody.AddExplosionForce(explosionForce, transform.position, explosionRadius);
 
 			// if can take damage => in affected tags
-			if (affectedTags.Contains(target.tag)) {
-				// inflict damage based on distance
-				float damage = calculateDamage(col);
-				target.GetComponent<HealthScript>().TakeDamage(damage); // SUGGESTION *explosiveMultiplier
+			if (conditionallyAffectedTags.Contains(target.tag)) {
+				GameObject targetBelongsToPlayer = target.tag == "Player" ? target : target.GetComponent<ObstacleScript>().belongsToPlayer;
+
+				if (targetBelongsToPlayer == belongsToPlayer)
+					continue;
+
 			}
 
+			else if (alwaysAffectedTags.Contains(target.tag)) {
+				// inflict damage based on distance
+				float damage = calculateDamage(col) * explosiveDamageMultiplier;
+				target.GetComponent<HealthScript>().TakeDamage(damage);
+
+			}
+
+
+			AudioSource.PlayClipAtPoint(explosionSound, gameObject.transform.position);
 			// Destroy bullet when after dealing damage
 			Destroy(gameObject);
 		}

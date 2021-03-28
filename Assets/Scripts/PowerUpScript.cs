@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerUpScript : MonoBehaviour {
-	private float POWER_HEALTH = 250;
+	private float POWERUP_HEALTH = 250;
+	private int POWERUP_DOUBLE_DAMAGE_COUNT = 3;
+	public enum POWERUP_TYPES { HEAL, AMMO, SHIELD };
+	public POWERUP_TYPES powerupType;
 	// Start is called before the first frame update
 	void Start() {
 
@@ -14,8 +17,31 @@ public class PowerUpScript : MonoBehaviour {
 
 	}
 
-	void healPlayer(GameObject player) {
-		player.GetComponent<PlayerScript>().playerHealth += 250;
+	void OnCollisionEnter(Collision collision) {
+		// will only collide with bullets
+		GameObject player = collision.gameObject.GetComponent<BulletScript>().belongsToPlayer;
+
+		// apply powerup
+		ApplyPowerup(player);
+
+		// destroy bullet here
+		Destroy(collision.gameObject);
+		Destroy(gameObject);
+	}
+
+	void ApplyPowerup(GameObject playerToApply) {
+		PlayerScript player = playerToApply.GetComponent<PlayerScript>();
+		if (powerupType == POWERUP_TYPES.HEAL) {
+			player.healPlayer(POWERUP_HEALTH);
+		}
+
+		if (powerupType == POWERUP_TYPES.AMMO) {
+			player.enableDoubleDamage(POWERUP_DOUBLE_DAMAGE_COUNT);
+		}
+
+		if (powerupType == POWERUP_TYPES.SHIELD) {
+			player.restoreDefenses();
+		}
 	}
 
 	void restoreDefenses(Transform defensesParent) {

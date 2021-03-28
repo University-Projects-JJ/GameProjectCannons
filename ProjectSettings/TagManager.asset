@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Zombie
   - Obstacle
+  - Fence
   layers:
   - Default
   - TransparentFX

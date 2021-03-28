@@ -44,6 +44,27 @@ public class TurretController : MonoBehaviour {
 
 		GameObject bullet = Instantiate(bulletPrefab, spawnPosition, spawnRotation);
 		bullet.GetComponent<Rigidbody>().AddForce(turret.transform.forward * bulletForce * 35);
+
+		// assign bullet to player
+		bullet.GetComponent<BulletScript>().belongsToPlayer = gameObject.transform.parent.gameObject;
+
+		// get assigned player
+		GameObject player = bullet.GetComponent<BulletScript>().belongsToPlayer;
+
+		// if has double damage bullets
+		if (player.GetComponent<PlayerScript>().doubleDamageBullets > 0) {
+
+			// increase bullet damage for this bullet
+			bullet.GetComponent<BulletScript>().explosiveDamageMultiplier += 0.6f;
+
+			// enable its particle effect
+			bullet.GetComponent<BulletScript>().particleChild.SetActive(true);
+
+			// decrement player double damage bullets
+			player.GetComponent<PlayerScript>().doubleDamageBullets--;
+		}
+
+		gameObject.GetComponent<AudioSource>().Play();
 	}
 
 	void RotateCamera() {

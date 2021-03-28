@@ -4930,8 +4930,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a136c3e9c2f485db45532ba815b1a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionSound: {fileID: 8300000, guid: c401d00c96b512e488d2e3bf5d111509, type: 3}
   explosiveDamageMultiplier: 1.5
   colliders: []
-  affectedTags:
-  - Zombie
-  - Obstacle
+  belongsToPlayer: {fileID: 0}
+  particleChild: {fileID: 4174713000229056138}

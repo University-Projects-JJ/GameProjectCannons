@@ -20,7 +20,11 @@ public class HealthScript : MonoBehaviour {
 	public void TakeDamage(float damage) {
 		health -= damage;
 		if (health <= 0) {
-			Destroy(gameObject);
+
+			if (gameObject.tag == "Fence")
+				gameObject.GetComponent<ObstacleScript>().destroyFence();
+			else
+				Destroy(gameObject);
 			// 3 variations
 			// 1 - Destroy and replace by a particle system
 
