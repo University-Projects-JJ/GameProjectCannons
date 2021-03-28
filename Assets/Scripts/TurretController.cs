@@ -7,7 +7,7 @@ public class TurretController : MonoBehaviour {
 	public float mouseSensitivity = 10.0f;
 	float xAxisClamp = 0, yAxisClamp = 0;
 	private float MAXCLAMP_XDOWN = 50, MAXCLAMP_XUP = -20, MAXCLAMP_Y = 45;
-	public GameObject turret;
+	public GameObject turret, camera;
 	public GameObject bulletPrefab, bulletSpawner1, bulletSpawner2;
 	private float bulletForce = 0;
 	private int shootFromSpawner = 1;

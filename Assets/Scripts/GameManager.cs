@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance;
 	public GameObject testTarget;
 
+	public GameObject player1, player2;
+	private int currentPlayer = 1;
+
 	void Awake() {
 		if (instance == null)
 			instance = this;
@@ -16,6 +19,8 @@ public class GameManager : MonoBehaviour {
 	}
 	// Start is called before the first frame update
 	IEnumerator Start() {
+		currentPlayer = Random.Range(1, 3);
+		SwitchPlayer();
 		// yield return StartCoroutine(ZombieManager.instance.spawnZombies(5, 0));
 		yield return new WaitForSeconds(1);
 		// ZombieManager.instance.setZombiesTarget(testTarget);
@@ -23,7 +28,28 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
+		if (Input.GetKeyDown(KeyCode.Space)) {
+			SwitchPlayer();
+		}
+	}
 
+	void enablePlayer(GameObject player, bool isEnabled) {
+		TurretController turretController = player.GetComponentInChildren<TurretController>();
+		turretController.camera.SetActive(isEnabled);
+		turretController.enabled = isEnabled;
+	}
+
+
+	void SwitchPlayer() {
+		if (currentPlayer == 1) {
+			enablePlayer(player1, true);
+			enablePlayer(player2, false);
+		}
+		else {
+			enablePlayer(player1, false);
+			enablePlayer(player2, true);
+		}
+		currentPlayer = 3 - currentPlayer;
 	}
 
 }

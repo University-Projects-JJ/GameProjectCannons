@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour {
 
-	public float playerHealth = 700;
-	public Text txtPlayerHealth;
+	public float playerHealth = 0;
+	public int playerScore = 0;
+	public Text txtPlayerHealth, txtPlayerScore;
 	public Image imgPlayerHealthBar;
 	public GameObject imgListDoubleDamageBullets;
 
@@ -15,6 +16,7 @@ public class PlayerScript : MonoBehaviour {
 	public Transform defensesParent;
 	// Start is called before the first frame update
 	void Start() {
+		playerHealth = GameManager.instance.MAX_PLAYER_HEALTH;
 		defenses = new List<GameObject>();
 		foreach (Transform child in defensesParent) {
 			GameObject fence = child.gameObject;
@@ -30,6 +32,7 @@ public class PlayerScript : MonoBehaviour {
 	void FixedUpdate() {
 		displayHealth();
 		showDoubleDamageBullets();
+		showPlayerScore();
 	}
 
 	void displayHealth() {
@@ -61,5 +64,9 @@ public class PlayerScript : MonoBehaviour {
 			Color color = i > doubleDamageBullets ? new Color(0.08f, 0.08f, 0.08f, 0.48f) : Color.white;
 			imgListDoubleDamageBullets.transform.GetChild(i - 1).GetComponent<Image>().color = color;
 		}
+	}
+
+	public void showPlayerScore() {
+		txtPlayerScore.text = "Score: " + playerScore.ToString();
 	}
 }

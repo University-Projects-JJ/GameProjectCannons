@@ -66,6 +66,16 @@ public class ZombieScript : MonoBehaviour {
 		}
 	}
 
+	void OnCollisionExit(Collision collision) {
+		GameObject target = collision.gameObject;
+		if (target.tag == "Fence") {
+			targetNavAgent.enabled = true;
+			zombieAnimator.SetBool("canAttack", false);
+			currentTarget = null;
+			StopCoroutine("hitFence");
+		}
+	}
+
 	IEnumerator hitFence() {
 		while (currentTarget != null) {
 			currentTarget.GetComponent<HealthScript>().TakeDamage(damage);

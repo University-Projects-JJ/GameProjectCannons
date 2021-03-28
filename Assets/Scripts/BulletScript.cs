@@ -31,6 +31,12 @@ public class BulletScript : MonoBehaviour {
 		float damage = (1 - distance / explosionRadius) * 100;
 		return damage;
 	}
+
+	void dealDamage(Collider col) {
+		float damage = calculateDamage(col) * explosiveDamageMultiplier;
+		belongsToPlayer.GetComponent<PlayerScript>().playerScore += (int)Mathf.Ceil(damage);
+		col.gameObject.GetComponent<HealthScript>().TakeDamage(damage);
+	}
 	void OnCollisionEnter(Collision collision) {
 		colliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
@@ -52,14 +58,16 @@ public class BulletScript : MonoBehaviour {
 
 				if (targetBelongsToPlayer == belongsToPlayer)
 					continue;
-
+				else
+					dealDamage(col);
 			}
 
 			else if (alwaysAffectedTags.Contains(target.tag)) {
 				// inflict damage based on distance
-				float damage = calculateDamage(col) * explosiveDamageMultiplier;
-				target.GetComponent<HealthScript>().TakeDamage(damage);
-
+				dealDamage(col);
+				// float damage = calculateDamage(col) * explosiveDamageMultiplier;
+				// belongsToPlayer.GetComponent<PlayerScript>().playerScore += (int)Mathf.Ceil(damage);
+				// target.GetComponent<HealthScript>().TakeDamage(damage);
 			}
 
 
