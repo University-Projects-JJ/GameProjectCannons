@@ -1,33 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TurretController : MonoBehaviour {
 	public float mouseSensitivity = 10.0f;
 	float xAxisClamp = 0, yAxisClamp = 0;
 	private float MAXCLAMP_XDOWN = 50, MAXCLAMP_XUP = -20, MAXCLAMP_Y = 45;
 	public GameObject turret;
+	public GameObject bulletPrefab, bulletSpawner1, bulletSpawner2;
+	private float bulletForce = 0;
+	private int shootFromSpawner = 1;
+
+	// UI ELEMENTS
+	public Image forcePowerBar;
+
 	// Start is called before the first frame update
 	void Start() {
+
 	}
 
 	// Update is called once per frame
 	void Update() {
-		// Cursor.lockState = CursorLockMode.Locked;
+		Cursor.lockState = CursorLockMode.Locked;
 		RotateCamera();
-		// gameObject.transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime, 0);
-		// gameObject.transform.Rotate(Input.GetAxis("Vertical") * -rotationSpeed * Time.deltaTime, 0, 0);
 
-		// // we can now take the forward of the child to get the actual forward direction to shoot bullets
-		// // cannonObject.transform.forward
-
-		// // shoot a bullet
-		// if (Input.GetButtonDown("Fire1")) {
-		// 	GameObject bullet = Instantiate(bulletPrefab, bulletSpawner.transform.position,
-		// 			bulletSpawner.transform.rotation);
-		// 	bullet.GetComponent<Rigidbody>().AddForce(cannonObject.transform.forward * bulletForce);
-		// }
+		// shoot a bullet
+		if (Input.GetButton("Fire1")) {
+			bulletForce = (bulletForce + 1.5f) % 100;
+			forcePowerBar.fillAmount = bulletForce / 100.0f;
+		}
+		if (Input.GetButtonUp("Fire1")) {
+			ShootBullets(bulletForce);
+			bulletForce = 0;
+			forcePowerBar.fillAmount = 0;
+		}
 	}
+
+	void ShootBullets(float bulletForce) {
+		Vector3 spawnPosition = shootFromSpawner == 1 ? bulletSpawner1.transform.position : bulletSpawner2.transform.position;
+		Quaternion spawnRotation = shootFromSpawner == 1 ? bulletSpawner1.transform.rotation : bulletSpawner2.transform.rotation;
+		shootFromSpawner = 3 - shootFromSpawner; // switches between 1 and 2
+
+		GameObject bullet = Instantiate(bulletPrefab, spawnPosition, spawnRotation);
+		bullet.GetComponent<Rigidbody>().AddForce(turret.transform.forward * bulletForce * 35);
+	}
+
 	void RotateCamera() {
 		float mouseX = Input.GetAxis("Mouse X");
 		float mouseY = Input.GetAxis("Mouse Y");

@@ -15,13 +15,14 @@ public class ZombieScript : MonoBehaviour {
 	// Start is called before the first frame update
 	void Start() {
 		zombieRB = gameObject.GetComponent<Rigidbody>();
-		// zombieAnimator = gameObject.GetComponentInChildren<Animator>();
+		zombieAnimator = gameObject.GetComponentInChildren<Animator>();
 	}
 
 	// Update is called once per frame
 	void Update() {
-		if (target != null && targetNavAgent != null)
+		if (target != null && targetNavAgent != null) {
 			moveToTarget();
+		}
 	}
 
 	void FixedUpdate() {
@@ -29,11 +30,28 @@ public class ZombieScript : MonoBehaviour {
 	}
 
 	void moveToTarget() {
-		targetNavAgent.SetDestination(target.transform.position);
-
-		distance = target.transform.position - this.transform.position;
-		if (distance.magnitude < 3.1) {
-			this.GetComponentInChildren<Animator>().SetBool("canAttack", true);
+		if (targetNavAgent.enabled) {
+			if (zombieRB.velocity.magnitude != 0 || zombieRB.angularVelocity.magnitude != 0) {
+				zombieRB.velocity = new Vector3(0, 0, 0);
+				zombieRB.angularVelocity = new Vector3(0, 0, 0);
+			}
+			targetNavAgent.SetDestination(target.transform.position);
+			distance = target.transform.position - this.transform.position;
+			if (distance.magnitude < 3.1) {
+				zombieAnimator.SetBool("canAttack", true);
+			}
+			else {
+				zombieAnimator.SetBool("canAttack", false);
+			}
 		}
 	}
+
+	public IEnumerator fallDown() {
+		targetNavAgent.enabled = false;
+		zombieAnimator.SetBool("isHit", true);
+		yield return new WaitForSeconds(5);
+		zombieAnimator.SetBool("isHit", false);
+		targetNavAgent.enabled = true;
+	}
+
 }

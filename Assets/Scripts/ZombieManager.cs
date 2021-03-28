@@ -33,6 +33,8 @@ public class ZombieManager : MonoBehaviour {
 			float z = Random.Range(Z_LOWER_BOUND, Z_LOWER_BOUND * -1);
 
 			GameObject zombie = Instantiate(zombiePrefab, new Vector3(x, 1.0f, z), transform.rotation);
+			// assign zombie health
+			zombie.GetComponent<HealthScript>().health = 100;
 			zombie.transform.SetParent(zombiesParent);
 			yield return new WaitForSeconds(waitTime);
 		}
