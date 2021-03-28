@@ -46,7 +46,7 @@ public class TurretController : MonoBehaviour {
 
 	IEnumerator waitToEndTurn(GameObject bullet) {
 		yield return new WaitUntil(() => bullet == null);
-		GameManager.instance.SwitchPlayer();
+		GameManager.instance.SwitchTurns();
 	}
 	void ShootBullets(float bulletForce) {
 		Vector3 spawnPosition = shootFromSpawner == 1 ? bulletSpawner1.transform.position : bulletSpawner2.transform.position;

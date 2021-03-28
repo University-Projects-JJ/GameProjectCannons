@@ -13,12 +13,12 @@ public class TerrainScript : MonoBehaviour {
 
 	}
 
-	void OnTriggerEnter(Collider other) {
-		GameObject bullet = other.gameObject;
+	// void OnTriggerEnter(Collider other) {
+	// 	GameObject bullet = other.gameObject;
 
-		if (bullet != null) {
-			Destroy(bullet);
-			GameManager.instance.SwitchPlayer();
-		}
-	}
+	// 	if (bullet != null) {
+	// 		Destroy(bullet);
+	// 		GameManager.instance.SwitchTurns();
+	// 	}
+	// }
 }

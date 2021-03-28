@@ -48,7 +48,7 @@ public class PlayerScript : MonoBehaviour {
 	public void healPlayer(int health) {
 		int newHealth = gameObject.GetComponentInChildren<HealthScript>().health + health;
 		int MAX_PLAYER_HEALTH = GameManager.instance.MAX_PLAYER_HEALTH;
-		gameObject.GetComponent<HealthScript>().health = newHealth > MAX_PLAYER_HEALTH ? MAX_PLAYER_HEALTH : newHealth;
+		gameObject.GetComponentInChildren<HealthScript>().health = newHealth > MAX_PLAYER_HEALTH ? MAX_PLAYER_HEALTH : newHealth;
 	}
 
 	public void enableDoubleDamage(int count) {

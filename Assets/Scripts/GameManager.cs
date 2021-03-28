@@ -5,11 +5,14 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 	public int MAX_PLAYER_HEALTH = 1000;
 	public int MAX_FENCE_HEALTH = 200;
+
 	public static GameManager instance;
+
 	public GameObject testTarget;
 
 	public GameObject player1, player2;
 	private int currentPlayer = 1;
+	private bool isPlaying = false;
 
 	void Awake() {
 		if (instance == null)
@@ -19,8 +22,9 @@ public class GameManager : MonoBehaviour {
 	}
 	// Start is called before the first frame update
 	IEnumerator Start() {
+		isPlaying = true;
 		currentPlayer = Random.Range(1, 3);
-		SwitchPlayer();
+		SwitchTurns();
 		// yield return StartCoroutine(ZombieManager.instance.spawnZombies(5, 0));
 		yield return new WaitForSeconds(1);
 
@@ -40,7 +44,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 
-	public void SwitchPlayer() {
+	public void SwitchTurns() {
 		if (currentPlayer == 1) {
 			enablePlayer(player1, true);
 			enablePlayer(player2, false);
@@ -50,6 +54,7 @@ public class GameManager : MonoBehaviour {
 			enablePlayer(player2, true);
 		}
 		currentPlayer = 3 - currentPlayer;
+		PowerupManager.instance.spawnPowerup();
 	}
 
 }

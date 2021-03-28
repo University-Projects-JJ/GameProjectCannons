@@ -45,7 +45,6 @@ public class BulletScript : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider collider) {
-		Debug.Log("Trigger");
 		causeExplosion();
 	}
 
