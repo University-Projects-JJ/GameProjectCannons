@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-	public readonly int MAX_PLAYER_HEALTH = 100,
+	public readonly int MAX_PLAYER_HEALTH = 500,
 	MAX_FENCE_HEALTH = 200;
 
 	public readonly float EXPLOSIVE_DAMAGE_MULTIPLER = 1.5f;
