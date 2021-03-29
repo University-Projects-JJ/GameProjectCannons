@@ -5,7 +5,8 @@ using UnityEngine;
 public class PowerupManager : MonoBehaviour {
 	public static PowerupManager instance;
 	public readonly float POWERUP_CHANCE = 0.3f;
-	private readonly int POWERUP_HEALTH = 250, POWERUP_DOUBLE_DAMAGE_COUNT = 3;
+	private readonly int POWERUP_DOUBLE_DAMAGE_COUNT = 3;
+	private int POWERUP_HEALTH;
 	public enum POWERUP_TYPES { HEAL, AMMO, SHIELD };
 	public GameObject prefabHealth, prefabAmmo, prefabShield;
 	public Transform powerupsParent, powerUpSpawnersParent;
@@ -22,6 +23,7 @@ public class PowerupManager : MonoBehaviour {
 
 	// Start is called before the first frame update
 	void Start() {
+		POWERUP_HEALTH = GameManager.instance.MAX_PLAYER_HEALTH/4;
 		powerupSpawners = new List<Transform>();
 
 		foreach (Transform powerupSpawner in powerUpSpawnersParent) {
@@ -38,6 +40,7 @@ public class PowerupManager : MonoBehaviour {
 	public void ApplyPowerup(POWERUP_TYPES powerupType, GameObject playerToApply) {
 		PlayerScript player = playerToApply.GetComponent<PlayerScript>();
 		if (powerupType == POWERUP_TYPES.HEAL) {
+			
 			player.healPlayer(POWERUP_HEALTH);
 		}
 

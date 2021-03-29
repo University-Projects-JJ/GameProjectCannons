@@ -79,4 +79,5 @@ InitTestScene*.unity
 !.vscode/extensions.json
 *.code-workspace
 
+*.pages
 # End of https://www.toptal.com/developers/gitignore/api/unity,vscode
