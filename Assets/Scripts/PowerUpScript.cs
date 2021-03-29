@@ -16,9 +16,9 @@ public class PowerUpScript : MonoBehaviour {
 
 	}
 
-	void OnCollisionEnter(Collision collision) {
+	void OnTriggerEnter(Collider collider) {
 		// will only collide with bullets
-		GameObject player = collision.gameObject.GetComponent<BulletScript>().belongsToPlayer;
+		GameObject player = collider.gameObject.GetComponent<BulletScript>().belongsToPlayer;
 
 		// apply powerup
 		PowerupManager.instance.ApplyPowerup(powerupType, player);

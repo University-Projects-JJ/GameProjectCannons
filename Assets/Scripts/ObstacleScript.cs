@@ -30,14 +30,17 @@ public class ObstacleScript : MonoBehaviour {
 	}
 
 	// Start is called before the first frame update
-	public void TakeDamage(int damage) {
+	public GameObject TakeDamage(int damage) {
 
 		health -= damage;
 		if (health <= 0) {
+			health = 0;
+
 			if (gameObject.tag == "Fence")
 				destroyFence();
 			else if (gameObject.tag == "Player") {
 				// end game
+				GameManager.instance.endGame();
 			}
 			else
 				Destroy(gameObject);
@@ -54,12 +57,15 @@ public class ObstacleScript : MonoBehaviour {
 
 			// Destroy the text
 			// Destroy(healthText.transform.parent.gameObject);
+			return null;
 		}
 		else {
 			// if zombie add dying animation for a few seconds before continuing to walk
 			if (gameObject.tag == "Zombie") {
-				StartCoroutine(gameObject.GetComponent<ZombieScript>().fallDown());
+				ZombieScript zombieScript = gameObject.GetComponent<ZombieScript>();
+				StartCoroutine(zombieScript.fallDown());
 			}
+			return gameObject;
 		}
 	}
 

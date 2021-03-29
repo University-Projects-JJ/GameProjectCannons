@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PowerupManager : MonoBehaviour {
 	public static PowerupManager instance;
-	public float POWERUP_CHANCE = 0.3f;
-	private int POWERUP_HEALTH = 250;
-	private int POWERUP_DOUBLE_DAMAGE_COUNT = 3;
+	public readonly float POWERUP_CHANCE = 0.3f;
+	private readonly int POWERUP_HEALTH = 250, POWERUP_DOUBLE_DAMAGE_COUNT = 3;
 	public enum POWERUP_TYPES { HEAL, AMMO, SHIELD };
 	public GameObject prefabHealth, prefabAmmo, prefabShield;
 	public Transform powerupsParent, powerUpSpawnersParent;
@@ -94,8 +93,12 @@ public class PowerupManager : MonoBehaviour {
 
 				// set to parent
 				powerup.transform.SetParent(powerupsParent);
-				Debug.Log("Spawned Powerup");
 			}
 		}
+	}
+
+	public IEnumerator disableManager() {
+		this.enabled = false;
+		yield break;
 	}
 }

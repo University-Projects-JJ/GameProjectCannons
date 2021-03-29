@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class TurretController : MonoBehaviour {
 	public float mouseSensitivity = 10.0f;
-	float xAxisClamp = 0, yAxisClamp = 0;
-	float rotX = 0, rotY = 0;
-	private float MAXCLAMP_XDOWN = 50, MAXCLAMP_XUP = -20, MAXCLAMP_Y = 45;
 	public GameObject turret, turretObject, playerCamera;
 	public GameObject bulletPrefab, bulletSpawner1, bulletSpawner2;
 	private float bulletForce = 0;
@@ -84,45 +81,6 @@ public class TurretController : MonoBehaviour {
 		StartCoroutine(waitToEndTurn(bullet));
 	}
 
-	void RotateCameraOld() {
-		float mouseX = Input.GetAxis("Mouse X");
-		float mouseY = Input.GetAxis("Mouse Y");
-
-		float rotX = mouseX * mouseSensitivity;
-		float rotY = mouseY * mouseSensitivity;
-
-		xAxisClamp -= rotY;
-		yAxisClamp += rotX;
-
-		Vector3 rotateTurret = turret.transform.rotation.eulerAngles;
-
-		rotateTurret.x -= rotY;
-		rotateTurret.z = 0;
-		rotateTurret.y += rotX;
-
-		// clamp x axis
-		if (xAxisClamp > MAXCLAMP_XDOWN) {
-			xAxisClamp = MAXCLAMP_XDOWN;
-			rotateTurret.x = MAXCLAMP_XDOWN;
-		}
-		if (xAxisClamp < MAXCLAMP_XUP) {
-			xAxisClamp = MAXCLAMP_XUP;
-			rotateTurret.x = 360 + MAXCLAMP_XUP;
-		}
-
-		if (yAxisClamp < 0) {
-			yAxisClamp = 0;
-			rotateTurret.y = 136.799f;
-		}
-
-		if (yAxisClamp > 90f) {
-			yAxisClamp = 90f;
-			rotateTurret.y = 226.799f;
-		}
-
-		turretObject.transform.Rotate(0, rotateTurret.x, 0);
-		turret.transform.Rotate(0, rotateTurret.y, 0);
-	}
 	void RotateCamera() {
 		float mouseX = Input.GetAxis("Mouse X");
 		float mouseY = Input.GetAxis("Mouse Y");

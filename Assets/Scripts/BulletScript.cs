@@ -42,11 +42,14 @@ public class BulletScript : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider collider) {
-		causeExplosion();
+		GameObject target = collider.gameObject;
+		if (target.tag == "Player" && target.GetComponent<ObstacleScript>().belongsToPlayer != belongsToPlayer)
+			causeExplosion();
 	}
 
 	void causeExplosion() {
 		colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+		AudioSource.PlayClipAtPoint(explosionSound, gameObject.transform.position);
 
 		foreach (Collider col in colliders) {
 			GameObject target = col.gameObject;
@@ -70,11 +73,14 @@ public class BulletScript : MonoBehaviour {
 			}
 
 			else if (alwaysAffectedTags.Contains(target.tag)) {
+
+				// if player hits zombie, set the zombie to attack the player
+				if (target.tag == "Zombie") {
+					target.GetComponent<ZombieScript>().playerTarget = belongsToPlayer;
+				}
 				// inflict damage based on distance
 				dealDamage(col);
 			}
-			AudioSource.PlayClipAtPoint(explosionSound, gameObject.transform.position);
-
 			// Destroy bullet after dealing damage
 			gameObject.SetActive(false);
 			Invoke("destroyBullet", 1);

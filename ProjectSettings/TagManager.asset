@@ -8,6 +8,9 @@ TagManager:
   - Obstacle
   - Fence
   - Ground
+  - Fire
+  - Powerup
+  - Bullet
   layers:
   - Default
   - TransparentFX

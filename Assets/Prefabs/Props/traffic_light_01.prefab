@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8142023401255499213}
   - component: {fileID: -1215248281537212204}
   - component: {fileID: 806823217492998892}
-  - component: {fileID: 7519307304118645886}
+  - component: {fileID: 5964160053416532289}
   m_Layer: 0
   m_Name: traffic_light_01
   m_TagString: Obstacle
@@ -118,8 +118,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &7519307304118645886
-MeshCollider:
+--- !u!65 &5964160053416532289
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -128,10 +128,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -8881092105436164674, guid: 9416ca20de6057743b4dfa835afe076c, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 3.1919997, y: 5.665842, z: 0.6}
+  m_Center: {x: 1.2959999, y: 2.832921, z: 0}
 --- !u!1001 &2041435575674297780
 PrefabInstance:
   m_ObjectHideFlags: 0
