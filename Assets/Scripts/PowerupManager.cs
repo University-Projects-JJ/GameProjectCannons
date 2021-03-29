@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerupManager : MonoBehaviour {
 	public static PowerupManager instance;
-	public float POWERUP_CHANCE = 0.6f;
+	public float POWERUP_CHANCE = 0.4f;
 	private int POWERUP_HEALTH = 250;
 	private int POWERUP_DOUBLE_DAMAGE_COUNT = 3;
 	public enum POWERUP_TYPES { HEAL, AMMO, SHIELD };
@@ -46,7 +46,6 @@ public class PowerupManager : MonoBehaviour {
 
 	public void spawnPowerup() {
 		float spawnChance = Random.Range(0f, 1.0f);
-		Debug.Log(spawnChance);
 		if (spawnChance <= POWERUP_CHANCE) {
 			GameObject powerup;
 

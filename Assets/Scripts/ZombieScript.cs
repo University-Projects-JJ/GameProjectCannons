@@ -77,11 +77,10 @@ public class ZombieScript : MonoBehaviour {
 
 	IEnumerator hitFence() {
 		while (currentTarget != null) {
-			currentTarget.GetComponent<HealthScript>().TakeDamage(damage);
+			currentTarget.GetComponent<ObstacleScript>().TakeDamage(damage);
 			yield return new WaitForSeconds(1);
 		}
 		// if fence has been destroyed => go back to chasing player
-
 		targetNavAgent.enabled = true;
 		zombieAnimator.SetBool("canAttack", false);
 	}

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-	public int MAX_PLAYER_HEALTH = 1000;
-	public int MAX_FENCE_HEALTH = 200;
+	public int MAX_PLAYER_HEALTH = 1000,
+	MAX_FENCE_HEALTH = 200;
+
+	public float EXPLOSIVE_DAMAGE_MULTIPLER = 1.5f;
 
 	public static GameManager instance;
 
@@ -33,14 +35,17 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
+		RenderSettings.skybox.SetFloat("_Rotation", Time.time);
 	}
 
 	void enablePlayer(GameObject player, bool isEnabled) {
 		TurretController turretController = player.GetComponentInChildren<TurretController>();
+		PlayerScript playerScript = player.GetComponent<PlayerScript>();
 		turretController.camera.SetActive(isEnabled);
 		turretController.enabled = isEnabled;
 		turretController.canShoot = isEnabled;
-		player.GetComponent<PlayerScript>().imgListDoubleDamageBullets.SetActive(isEnabled);
+		playerScript.imgListDoubleDamageBullets.SetActive(isEnabled);
+		playerScript.imgPointerToPlayer.SetActive(!isEnabled);
 	}
 
 

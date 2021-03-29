@@ -34,7 +34,7 @@ public class ZombieManager : MonoBehaviour {
 
 			GameObject zombie = Instantiate(zombiePrefab, new Vector3(x, 1.0f, z), transform.rotation);
 			// assign zombie health
-			zombie.GetComponent<HealthScript>().health = 100;
+			zombie.GetComponent<ObstacleScript>().health = 100;
 			zombie.transform.SetParent(zombiesParent);
 			yield return new WaitForSeconds(waitTime);
 		}

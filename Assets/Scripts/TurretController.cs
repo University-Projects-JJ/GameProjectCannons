@@ -44,6 +44,7 @@ public class TurretController : MonoBehaviour {
 		}
 	}
 
+
 	IEnumerator waitToEndTurn(GameObject bullet) {
 		yield return new WaitUntil(() => bullet == null);
 		GameManager.instance.SwitchTurns();
@@ -57,23 +58,25 @@ public class TurretController : MonoBehaviour {
 		bullet.GetComponent<Rigidbody>().AddForce(turret.transform.forward * bulletForce * 35);
 
 		// assign bullet to player
-		bullet.GetComponent<BulletScript>().belongsToPlayer = gameObject.transform.parent.gameObject;
+		BulletScript bulletScript = bullet.GetComponent<BulletScript>();
+		bulletScript.belongsToPlayer = gameObject.transform.parent.gameObject;
+		bulletScript.explosiveDamageMultiplier = GameManager.instance.EXPLOSIVE_DAMAGE_MULTIPLER;
 
 		// get assigned player
-		GameObject player = bullet.GetComponent<BulletScript>().belongsToPlayer;
+		// GameObject player = bullet.GetComponent<BulletScript>().belongsToPlayer;
 
 
 		// if has double damage bullets
-		if (player.GetComponent<PlayerScript>().doubleDamageBullets > 0) {
+		if (bulletScript.belongsToPlayer.GetComponent<PlayerScript>().doubleDamageBullets > 0) {
 
 			// increase bullet damage for this bullet
-			bullet.GetComponent<BulletScript>().explosiveDamageMultiplier += 0.6f;
+			bulletScript.explosiveDamageMultiplier *= 2;
 
 			// enable its particle effect
-			bullet.GetComponent<BulletScript>().particleChild.SetActive(true);
+			bulletScript.particleChild.SetActive(true);
 
 			// decrement player double damage bullets
-			player.GetComponent<PlayerScript>().doubleDamageBullets--;
+			bulletScript.belongsToPlayer.GetComponent<PlayerScript>().doubleDamageBullets--;
 		}
 
 		gameObject.GetComponent<AudioSource>().Play();

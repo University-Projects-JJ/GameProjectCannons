@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class BulletScript : MonoBehaviour {
-	private int explosionRadius = 10, explosionForce = 1000;
+	private int explosionRadius = 6, explosionForce = 1000;
 	public AudioClip explosionSound;
-	public float explosiveDamageMultiplier = 1.2f;
+	public float explosiveDamageMultiplier;
 	public Collider[] colliders;
 	private List<string> alwaysAffectedTags = new List<string> { "Zombie", "Obstacle" };
 	private List<string> conditionallyAffectedTags = new List<string> { "Fence", "Player" };
@@ -18,10 +18,6 @@ public class BulletScript : MonoBehaviour {
 
 	// Start is called before the first frame update
 	void Start() {
-		// always destroy the bullet if not destroyed
-		// yield return new WaitForSeconds(10);
-		// if (gameObject != null)
-		// 	Destroy(gameObject);
 	}
 
 	// Update is called once per frame
@@ -38,7 +34,7 @@ public class BulletScript : MonoBehaviour {
 	void dealDamage(Collider col) {
 		int damage = (int)Mathf.Ceil(calculateDamage(col) * explosiveDamageMultiplier);
 		belongsToPlayer.GetComponent<PlayerScript>().playerScore += damage;
-		col.gameObject.GetComponent<HealthScript>().TakeDamage(damage);
+		col.gameObject.GetComponent<ObstacleScript>().TakeDamage(damage);
 	}
 	void OnCollisionEnter(Collision collision) {
 		causeExplosion();
@@ -86,5 +82,9 @@ public class BulletScript : MonoBehaviour {
 
 	void destroyBullet() {
 		Destroy(gameObject);
+	}
+
+	void OnDrawGizmos() {
+		Gizmos.DrawWireSphere(transform.position, explosionRadius);
 	}
 }

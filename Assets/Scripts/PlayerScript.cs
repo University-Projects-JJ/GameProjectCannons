@@ -9,7 +9,7 @@ public class PlayerScript : MonoBehaviour {
 	public int playerScore = 0;
 	public Text txtPlayerScore;
 	// public Image imgPlayerHealthBar;
-	public GameObject imgListDoubleDamageBullets;
+	public GameObject imgListDoubleDamageBullets, imgPointerToPlayer;
 
 	public int doubleDamageBullets = 0;
 	public List<GameObject> defenses;
@@ -18,8 +18,8 @@ public class PlayerScript : MonoBehaviour {
 	void Start() {
 		// SET UP HEALTH
 		int MAX_HEALTH = GameManager.instance.MAX_PLAYER_HEALTH;
-		gameObject.GetComponentInChildren<HealthScript>().health = MAX_HEALTH;
-		gameObject.GetComponentInChildren<HealthScript>().MAX_HEALTH = MAX_HEALTH;
+		gameObject.GetComponentInChildren<ObstacleScript>().health = MAX_HEALTH;
+		gameObject.GetComponentInChildren<ObstacleScript>().MAX_HEALTH = MAX_HEALTH;
 
 		defenses = new List<GameObject>();
 		foreach (Transform child in defensesParent) {
@@ -46,9 +46,9 @@ public class PlayerScript : MonoBehaviour {
 	// }
 
 	public void healPlayer(int health) {
-		int newHealth = gameObject.GetComponentInChildren<HealthScript>().health + health;
+		int newHealth = gameObject.GetComponentInChildren<ObstacleScript>().health + health;
 		int MAX_PLAYER_HEALTH = GameManager.instance.MAX_PLAYER_HEALTH;
-		gameObject.GetComponentInChildren<HealthScript>().health = newHealth > MAX_PLAYER_HEALTH ? MAX_PLAYER_HEALTH : newHealth;
+		gameObject.GetComponentInChildren<ObstacleScript>().health = newHealth > MAX_PLAYER_HEALTH ? MAX_PLAYER_HEALTH : newHealth;
 	}
 
 	public void enableDoubleDamage(int count) {
@@ -57,8 +57,8 @@ public class PlayerScript : MonoBehaviour {
 
 	public void restoreDefenses() {
 		foreach (GameObject fence in defenses) {
-			fence.GetComponent<HealthScript>().health = GameManager.instance.MAX_FENCE_HEALTH;
-			fence.GetComponent<HealthScript>().MAX_HEALTH = GameManager.instance.MAX_FENCE_HEALTH;
+			fence.GetComponent<ObstacleScript>().health = GameManager.instance.MAX_FENCE_HEALTH;
+			fence.GetComponent<ObstacleScript>().MAX_HEALTH = GameManager.instance.MAX_FENCE_HEALTH;
 			if (!fence.activeInHierarchy)
 				fence.SetActive(true);
 		}
