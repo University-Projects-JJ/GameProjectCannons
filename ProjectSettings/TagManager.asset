@@ -11,6 +11,7 @@ TagManager:
   - Fire
   - Powerup
   - Bullet
+  - Barrel
   layers:
   - Default
   - TransparentFX

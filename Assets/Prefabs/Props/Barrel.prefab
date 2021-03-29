@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5421066090278915824}
   m_Layer: 0
   m_Name: Barrel
-  m_TagString: Obstacle
+  m_TagString: Barrel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,11 +126,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918598102ea134e648a179f00a928f15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 150
-  MAX_HEALTH: 150
+  health: 100
+  MAX_HEALTH: 100
   imgHealth: {fileID: 2257130871013707940}
   txtHealth: {fileID: 0}
   belongsToPlayer: {fileID: 0}
+  explosionSound: {fileID: 8300000, guid: c401d00c96b512e488d2e3bf5d111509, type: 3}
 --- !u!1001 &3716201323620863202
 PrefabInstance:
   m_ObjectHideFlags: 0

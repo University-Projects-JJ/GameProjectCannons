@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918598102ea134e648a179f00a928f15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 300
-  MAX_HEALTH: 300
+  health: 200
+  MAX_HEALTH: 200
   imgHealth: {fileID: 8973129223881609928}
   txtHealth: {fileID: 0}
   belongsToPlayer: {fileID: 0}

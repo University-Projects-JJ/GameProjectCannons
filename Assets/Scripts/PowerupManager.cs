@@ -93,10 +93,18 @@ public class PowerupManager : MonoBehaviour {
 
 				// set to parent
 				powerup.transform.SetParent(powerupsParent);
+				StartCoroutine(destroyPowerupIfNotCollected(powerup, 15));
 			}
 		}
 	}
 
+	IEnumerator destroyPowerupIfNotCollected(GameObject powerup, float time) {
+		yield return new WaitForSeconds(time);
+		if (powerup != null) {
+			clearSpawner(powerup.GetComponent<PowerUpScript>().spawnPosition);
+			Destroy(powerup);
+		}
+	}
 	public IEnumerator disableManager() {
 		this.enabled = false;
 		yield break;

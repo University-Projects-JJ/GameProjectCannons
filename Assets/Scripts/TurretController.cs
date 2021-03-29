@@ -29,7 +29,7 @@ public class TurretController : MonoBehaviour {
 		if (canShoot) {
 
 			if (Input.GetButton("Fire1")) {
-				bulletForce = (bulletForce + 1.5f) % 100;
+				bulletForce = (bulletForce + 1.8f) % 100;
 				forcePowerBar.fillAmount = bulletForce / 100.0f;
 			}
 			if (Input.GetButtonUp("Fire1")) {

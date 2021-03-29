@@ -8,7 +8,7 @@ public class BulletScript : MonoBehaviour {
 	public AudioClip explosionSound;
 	public float explosiveDamageMultiplier;
 	public Collider[] colliders;
-	private List<string> alwaysAffectedTags = new List<string> { "Zombie", "Obstacle" };
+	private List<string> alwaysAffectedTags = new List<string> { "Zombie", "Obstacle", "Barrel" };
 	private List<string> conditionallyAffectedTags = new List<string> { "Fence", "Player" };
 
 	public GameObject belongsToPlayer;
@@ -27,7 +27,7 @@ public class BulletScript : MonoBehaviour {
 	}
 	float calculateDamage(Collider col) {
 		float distance = Vector3.Distance(transform.position, col.transform.position);
-		float damage = (1 - distance / explosionRadius) * 100;
+		float damage = Mathf.Abs(1 - distance / explosionRadius) * 100;
 		return damage;
 	}
 
@@ -91,7 +91,4 @@ public class BulletScript : MonoBehaviour {
 		Destroy(gameObject);
 	}
 
-	void OnDrawGizmos() {
-		Gizmos.DrawWireSphere(transform.position, explosionRadius);
-	}
 }

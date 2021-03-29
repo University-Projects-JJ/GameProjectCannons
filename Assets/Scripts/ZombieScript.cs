@@ -117,7 +117,9 @@ public class ZombieScript : MonoBehaviour {
 
 	// used at the end of the game to disable zombies
 	public void disableZombie() {
+		zombieAnimator.enabled = false;
 		this.enabled = false;
+		targetNavAgent = null;
 	}
 
 }

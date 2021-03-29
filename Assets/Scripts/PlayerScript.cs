@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour {
 
-	// public int playerHealth = 0;
-	public int playerScore = 0;
-	public Text txtPlayerScore;
+	public readonly int PLAYER_TIMER = 60;
+	public int playerScore = 0, playerTimer;
+	public Text txtPlayerScore, txtPlayerTimer;
 	// public Image imgPlayerHealthBar;
 	public GameObject imgListDoubleDamageBullets, imgPointerToPlayer;
 
@@ -21,21 +21,24 @@ public class PlayerScript : MonoBehaviour {
 		gameObject.GetComponentInChildren<ObstacleScript>().health = MAX_HEALTH;
 		gameObject.GetComponentInChildren<ObstacleScript>().MAX_HEALTH = MAX_HEALTH;
 
+		playerTimer = PLAYER_TIMER;
+
 		defenses = new List<GameObject>();
 		foreach (Transform child in defensesParent) {
 			GameObject fence = child.gameObject;
 			defenses.Add(fence);
 		}
 		restoreDefenses();
+
+		StartCoroutine(decrementPlayerTimer());
 	}
 
 	// Update is called once per frame
 	void Update() {
-
-	}
-	void FixedUpdate() {
 		showDoubleDamageBullets();
 		showPlayerScore();
+	}
+	void FixedUpdate() {
 	}
 
 	// void displayHealth() {
@@ -74,5 +77,18 @@ public class PlayerScript : MonoBehaviour {
 
 	public void showPlayerScore() {
 		txtPlayerScore.text = "Score: " + playerScore.ToString();
+	}
+
+	public IEnumerator decrementPlayerTimer() {
+		while (playerTimer > 0) {
+			yield return new WaitForSeconds(1);
+			// decrement timer if player's turn and hasn't shot yet
+			if (GameManager.instance.getCurrentPlayer() == gameObject && gameObject.GetComponentInChildren<TurretController>().canShoot) {
+				playerTimer--;
+				txtPlayerTimer.text = playerTimer.ToString() + "s";
+			}
+		}
+		if (playerTimer <= 0)
+			GameManager.instance.endGame("time");
 	}
 }

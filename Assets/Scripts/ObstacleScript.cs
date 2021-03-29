@@ -40,23 +40,11 @@ public class ObstacleScript : MonoBehaviour {
 				destroyFence();
 			else if (gameObject.tag == "Player") {
 				// end game
-				GameManager.instance.endGame();
+				GameManager.instance.endGame("health");
 			}
 			else
 				Destroy(gameObject);
-			// 3 variations
-			// 1 - Destroy and replace by a particle system
 
-			// 2 - Changing the texture
-			// foreach (Transform lod in transform) {
-			// lod.gameObject.GetComponent<MeshRenderer>().material = destroyedMaterial
-			// }
-
-			// 3 - Replace it by another asset (different mesh or Ragdoll)
-			// StartCoroutine("ReplaceWithDestroyed");
-
-			// Destroy the text
-			// Destroy(healthText.transform.parent.gameObject);
 			return null;
 		}
 		else {
@@ -73,17 +61,4 @@ public class ObstacleScript : MonoBehaviour {
 	public void destroyFence() {
 		gameObject.SetActive(false);
 	}
-
-	// IEnumerator ReplaceWithDestroyed() {
-	// 	GameObject destroyed = Instantiate(destroyedModel, transform.position, transform.rotation);
-	// 	Rigidbody destroyedRB = destroyed.GetComponent<Rigidbody>();
-
-	// 	destroyedRB.velocity = gameObject.GetComponent<Rigidbody>().velocity;
-	// 	destroyedRB.angularVelocity = gameObject.GetComponent<Rigidbody>().angularVelocity;
-
-	// 	// wait before destroying the original asset to be able to copy its properties
-	// 	yield return new WaitForSeconds(0.1f);
-	// 	// Destroy the current Barrel
-	// 	Destroy(gameObject);
-	// }
 }
