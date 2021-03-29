@@ -37,7 +37,8 @@ public class BulletScript : MonoBehaviour {
 		col.gameObject.GetComponent<ObstacleScript>().TakeDamage(damage);
 	}
 	void OnCollisionEnter(Collision collision) {
-		causeExplosion();
+		if (collision.gameObject.tag != "Powerup")
+			causeExplosion();
 	}
 
 	void OnTriggerEnter(Collider collider) {

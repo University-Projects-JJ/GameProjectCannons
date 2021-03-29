@@ -5,6 +5,7 @@ using UnityEngine;
 public class PowerUpScript : MonoBehaviour {
 
 	public PowerupManager.POWERUP_TYPES powerupType;
+	public int spawnPosition;
 	// Start is called before the first frame update
 	void Start() {
 
@@ -21,9 +22,8 @@ public class PowerUpScript : MonoBehaviour {
 
 		// apply powerup
 		PowerupManager.instance.ApplyPowerup(powerupType, player);
+		PowerupManager.instance.clearSpawner(spawnPosition);
 
-		// destroy bullet here
-		// Destroy(collision.gameObject);
 		Destroy(gameObject);
 	}
 }

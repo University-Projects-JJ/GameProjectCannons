@@ -8,7 +8,7 @@ public class TurretController : MonoBehaviour {
 	float xAxisClamp = 0, yAxisClamp = 0;
 	float rotX = 0, rotY = 0;
 	private float MAXCLAMP_XDOWN = 50, MAXCLAMP_XUP = -20, MAXCLAMP_Y = 45;
-	public GameObject turret, turretObject, camera;
+	public GameObject turret, turretObject, playerCamera;
 	public GameObject bulletPrefab, bulletSpawner1, bulletSpawner2;
 	private float bulletForce = 0;
 	private int shootFromSpawner = 1;

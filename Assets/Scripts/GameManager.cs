@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour {
 	void enablePlayer(GameObject player, bool isEnabled) {
 		TurretController turretController = player.GetComponentInChildren<TurretController>();
 		PlayerScript playerScript = player.GetComponent<PlayerScript>();
-		turretController.camera.SetActive(isEnabled);
+		turretController.playerCamera.SetActive(isEnabled);
 		turretController.enabled = isEnabled;
 		turretController.canShoot = isEnabled;
 		playerScript.imgListDoubleDamageBullets.SetActive(isEnabled);

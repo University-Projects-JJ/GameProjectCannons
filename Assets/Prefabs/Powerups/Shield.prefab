@@ -906,7 +906,7 @@ GameObject:
   - component: {fileID: 4437046619386421406}
   m_Layer: 0
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -997,3 +997,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupType: 2
+  spawnPosition: 0

@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class PowerupManager : MonoBehaviour {
 	public static PowerupManager instance;
-	public float POWERUP_CHANCE = 0.4f;
+	public float POWERUP_CHANCE = 0.3f;
 	private int POWERUP_HEALTH = 250;
 	private int POWERUP_DOUBLE_DAMAGE_COUNT = 3;
 	public enum POWERUP_TYPES { HEAL, AMMO, SHIELD };
 	public GameObject prefabHealth, prefabAmmo, prefabShield;
-	public Transform powerupParent, powerUpSpawner;
+	public Transform powerupsParent, powerUpSpawnersParent;
+	public List<Transform> powerupSpawners;
+	public List<bool> powerUpSpawnersAvailable;
 
 
 	void Awake() {
@@ -21,7 +23,12 @@ public class PowerupManager : MonoBehaviour {
 
 	// Start is called before the first frame update
 	void Start() {
+		powerupSpawners = new List<Transform>();
 
+		foreach (Transform powerupSpawner in powerUpSpawnersParent) {
+			powerupSpawners.Add(powerupSpawner);
+			powerUpSpawnersAvailable.Add(true);
+		}
 	}
 
 	// Update is called once per frame
@@ -44,29 +51,51 @@ public class PowerupManager : MonoBehaviour {
 		}
 	}
 
+	public void clearSpawner(int spawnPosition) {
+		powerUpSpawnersAvailable[spawnPosition] = true;
+	}
 	public void spawnPowerup() {
-		float spawnChance = Random.Range(0f, 1.0f);
-		if (spawnChance <= POWERUP_CHANCE) {
-			GameObject powerup;
+		int spawnPosition = -1;
 
-			// use shields as default;
-			GameObject prefab = prefabShield;
-			POWERUP_TYPES type = POWERUP_TYPES.SHIELD;
-
-			int random = Random.Range(0, 3);
-			float positionX = Random.Range(-10, 10);
-
-			// if 0 => already shield
-			if (random == 1) {
-				prefab = prefabAmmo;
-				type = POWERUP_TYPES.AMMO;
+		// number of maximum available powerups == number of available and unoccupied spawners
+		for (int i = 0; i < powerUpSpawnersAvailable.Count; i++) {
+			if (powerUpSpawnersAvailable[i]) {
+				spawnPosition = i;
+				break;
 			}
-			if (random == 2) {
-				prefab = prefabHealth;
-				type = POWERUP_TYPES.HEAL;
+		}
+
+		if (spawnPosition != -1) {
+			float spawnChance = Random.Range(0f, 1.0f);
+			if (spawnChance <= POWERUP_CHANCE) {
+				GameObject powerup;
+
+				// use shields as default;
+				GameObject prefab = prefabShield;
+				POWERUP_TYPES type = POWERUP_TYPES.SHIELD;
+
+				int random = Random.Range(0, 3);
+
+				// if 0 => already shield
+				if (random == 1) {
+					prefab = prefabAmmo;
+					type = POWERUP_TYPES.AMMO;
+				}
+				if (random == 2) {
+					prefab = prefabHealth;
+					type = POWERUP_TYPES.HEAL;
+				}
+				Transform powerUpSpawner = powerupSpawners[spawnPosition];
+				powerUpSpawnersAvailable[spawnPosition] = false; // block spawner
+
+				powerup = Instantiate(prefab, powerUpSpawner.position, powerUpSpawner.rotation);
+				powerup.GetComponent<PowerUpScript>().powerupType = type;
+				powerup.GetComponent<PowerUpScript>().spawnPosition = spawnPosition;
+
+				// set to parent
+				powerup.transform.SetParent(powerupsParent);
+				Debug.Log("Spawned Powerup");
 			}
-			powerup = Instantiate(prefab, new Vector3(positionX, powerUpSpawner.position.y, powerUpSpawner.position.z), powerUpSpawner.rotation);
-			powerup.GetComponent<PowerUpScript>().powerupType = type;
 		}
 	}
 }
